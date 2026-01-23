@@ -1,0 +1,8 @@
+{{- if .Values.serverDefinitions.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pgadmin-eso-sa
+  labels:
+    {{- include "pgadmin.labels" . | nindent 4 }}
+{{- end }}

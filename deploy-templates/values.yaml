@@ -1,0 +1,46 @@
+pgadmin4:
+  ingress:
+    enabled: true
+    hosts:
+      - host: pgadmin.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+  serverDefinitions:
+    enabled: false
+
+  extraSecretMounts:
+    - name: servers-config
+      secret: pgadmin-servers-config
+      subPath: servers.json
+      mountPath: /pgadmin4/servers.json
+      readOnly: true
+    - name: pgpassfile
+      secret: pgadmin-servers-auto
+      subPath: pgpassfile
+      mountPath: "/tmp/pgpassfile"
+      readOnly: true
+
+  env:
+    email: pgadmin@example.com
+
+  persistentVolume:
+    enabled: true
+    size: 1Gi
+
+serverDefinitions:
+  enabled: true
+  secretName: "application-pguser-admin"
+  serverName: "PostgreSQL (pgadmin)"
+  serverGroup: "Servers"
+  maintenanceDB: "postgres"
+  sslMode: "prefer"
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi

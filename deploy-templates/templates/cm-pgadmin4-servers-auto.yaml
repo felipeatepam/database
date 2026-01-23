@@ -1,0 +1,52 @@
+{{- if .Values.serverDefinitions.enabled }}
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: pgadmin-servers-config
+  labels:
+    {{- include "pgadmin.labels" . | nindent 4 }}
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: pgadmin-k8s-store
+    kind: SecretStore
+  target:
+    name: pgadmin-servers-config
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      type: Opaque
+      data:
+        servers.json: |
+          {
+            "Servers": {
+              "1": {
+                "Name": {{ .Values.serverDefinitions.serverName | quote }},
+                "Group": {{ .Values.serverDefinitions.serverGroup | quote }},
+                "Host": {{ printf "{{ .host | toString }}" | quote }},
+                "Port": {{ printf "{{ .port }}" }},
+                "MaintenanceDB": {{ .Values.serverDefinitions.maintenanceDB | quote }},
+                "Username": {{ printf "{{ .user | toString }}" | quote }},
+                "SSLMode": {{ .Values.serverDefinitions.sslMode | quote }},
+                "Shared": false,
+                "ConnectionParameters": {
+                  "sslmode": {{ .Values.serverDefinitions.sslMode | quote }},
+                  "passfile": "/tmp/pgpassfile"
+                }
+              }
+            }
+          }
+  data:
+    - secretKey: host
+      remoteRef:
+        key: {{ .Values.serverDefinitions.secretName }}
+        property: host
+    - secretKey: port
+      remoteRef:
+        key: {{ .Values.serverDefinitions.secretName }}
+        property: port
+    - secretKey: user
+      remoteRef:
+        key: {{ .Values.serverDefinitions.secretName }}
+        property: user
+{{- end }}
