@@ -2,7 +2,7 @@ pgadmin4:
   ingress:
     enabled: true
     hosts:
-      - host: pgadmin.example.com
+      - host: pgadmin-0oqfemca.development.krci-dev.cloudmentor.academy
         paths:
           - path: /
             pathType: Prefix
