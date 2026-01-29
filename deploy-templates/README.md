@@ -16,12 +16,6 @@ A Helm with database
 
 * <https://github.com/kuberocketci/template-rest-db>
 
-## Requirements
-
-| Repository | Name | Version |
-|------------|------|---------|
-| https://helm.runix.net | pgadmin4 | 1.57.0 |
-
 ## Values
 
 | Key | Type | Default | Description |
