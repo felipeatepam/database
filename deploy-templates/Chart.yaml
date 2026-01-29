@@ -29,3 +29,8 @@ sources:
 maintainers:
 - name: KubeRocketCI
   url: https://github.com/epam/edp-install/
+
+dependencies:
+  - name: pgadmin4
+    version: 1.57.0
+    repository: https://helm.runix.net
